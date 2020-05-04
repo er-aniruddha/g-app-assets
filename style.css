@@ -1,25 +1,25 @@
 
 @font-face {
   font-family: 'Whitney-Book';
-  src: url('../fonts/Whitney-Book.eot?#iefix') format('embedded-opentype'),  url('../fonts/Whitney-Book.otf')  format('opentype'),
-	     url('../fonts/Whitney-Book.woff') format('woff'), url('../fonts/Whitney-Book.ttf')  format('truetype'), url('../fonts/Whitney-Book.svg#Whitney-Book') format('svg');
+  src: url('Whitney-Book.eot?#iefix') format('embedded-opentype'),  url('Whitney-Book.otf')  format('opentype'),
+	     url('Whitney-Book.woff') format('woff'), url('Whitney-Book.ttf')  format('truetype'), url('Whitney-Book.svg#Whitney-Book') format('svg');
   font-weight: normal;
   font-style: normal;
 }
-@font-face {
+/* @font-face {
   font-family: 'Whitney-Medium';
-  src: url('../fonts/Whitney-Medium.eot?#iefix') format('embedded-opentype'),  url('../fonts/Whitney-Medium.otf')  format('opentype'),
-	     url('../fonts/Whitney-Medium.woff') format('woff'), url('../fonts/Whitney-Medium.ttf')  format('truetype'), url('../fonts/Whitney-Medium.svg#Whitney-Medium') format('svg');
+  src: url('Whitney-Medium.eot?#iefix') format('embedded-opentype'),  url('Whitney-Medium.otf')  format('opentype'),
+	     url('Whitney-Medium.woff') format('woff'), url('Whitney-Medium.ttf')  format('truetype'), url('Whitney-Medium.svg#Whitney-Medium') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'Whitney-Semibold';
-  src: url('../fonts/Whitney-Semibold.eot?#iefix') format('embedded-opentype'),  url('../fonts/Whitney-Semibold.otf')  format('opentype'),
-	     url('../fonts/Whitney-Semibold.woff') format('woff'), url('../fonts/Whitney-Semibold.ttf')  format('truetype'), url('../fonts/Whitney-Semibold.svg#Whitney-Semibold') format('svg');
+  src: url('Whitney-Semibold.eot?#iefix') format('embedded-opentype'),  url('Whitney-Semibold.otf')  format('opentype'),
+	     url('Whitney-Semibold.woff') format('woff'), url('Whitney-Semibold.ttf')  format('truetype'), url('Whitney-Semibold.svg#Whitney-Semibold') format('svg');
   font-weight: normal;
   font-style: normal;
-}
+} */
 /* Body */
 /****** Loader Start *******/
 #cover-spin {
@@ -2630,6 +2630,7 @@ label {
 	left: -30px;
 	top: -2px;
 }
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
