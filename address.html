@@ -125,6 +125,7 @@
 
       var appInterval = window.setInterval(function () {
         var appInventor_InputValue = window.AppInventor.getWebViewString();
+        //var appInventor_InputValue = "http://www.grofie.in/apps-static-xx-grocery-store/*erwrwre";
         values = appInventor_InputValue.split('*');
         base_url = values[0]; //url will be provided from app using WebViewString
         appInventor_locationName = values[1]; //location name will be provided from app using WebViewString
@@ -148,7 +149,7 @@
         if (base_url) {
           $.ajax({
             method: 'GET',
-            url: base_url + "/app/api/store/list",
+            url: base_url + "/api/store/list",
             dataType: "json",           
             success: function (data) {    
               $(".select2").prop('disabled', false);
@@ -171,7 +172,7 @@
         var postData = new FormData($("#address_formSubmit")[0]);   
         $.ajax({
           method: 'POST',
-          url: base_url+'/app/api/add/order/address',
+          url: base_url+'/api/add/order/address',
           data: postData,
           dataType: 'json',
           processData: false,
