@@ -5,8 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="_token" content="{{csrf_token()}}" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Cozy Store</title>
+
   <!-- Bootstrap core CSS -->
   <link href="bootstrap.min.css" rel="stylesheet">
   <!-- Material Design Icons -->
@@ -19,17 +20,17 @@
 
 <body>
   <!-- Address Strat -->
-  <div class="container-fluid">
-    <div class="row">
-      <div class="address-block">
-        <form method="POST">
+  <!-- <form method="POST" action="http://localhost/app/apps/address/store"> -->
+    <form method="POST" id="address_formSubmit">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="address-block">
           <div class="delivery-add">
             <div class="pick-add">
               <div id="_gps_chkBtn">
                 <h5><a href="javascript:void(0);"><span class="loc-txt"><span class="mdi mdi-target">
                       </span> Use my current location</span></a></h5>
-              </div>
-
+              </div>            
               <div class="text-center" id="_spinner_Btn" style="display: none;">
                 <h5>
                   <a href="javascript:void(0);">
@@ -44,91 +45,160 @@
             </div>
             <!-- Place Name will be here when get -->
             <p id="_place_name"></p>
-            <div class="form-group">              
-              <select class="select2 form-control border-form-control store" name="store_id" id="store_id" value=""></select>
-                <option selected="selected" value="0">Select Brand</option>
-              <label class="control-label">Select City</label>
-            </div>               
-
+            <!-- To get store id and selecet_city(hidden)-->
+            <fieldset class="form-group">              
+              <input type="text" name="input_place_name" id="input_place_name" class="form-control" value="">
+              <label>Place name</label>
+            </fieldset>
+            <!-- To get store id and selecet_city(show)-->
+            <div class="form-group">
+              <label class="control-label">Choose City</label>
+                <select class="select2 form-control border-form-control" name="store_id" id="store_id">
+                  <option selected="selected" value="0">Choose Your City</option>
+              </select>              
+              <small class="text-danger" id="error-store"></small>
+            </div>
+            <!-- To get Alternative phone nuber(show)-->
             <fieldset class="form-group">
-              <input type="number" name="phone" id="phone" class="form-control" autocorrect="off" autofocus="autofocus"
+              <input type="number" name="alt_phone" id="alt_phone" class="form-control" autocorrect="off" autofocus="autofocus"
                 autocomplete="off" animate="true" onKeyPress="if(this.value.length==10) return false;">
-              <label>Alt Phone Number</label>
+              <label>Alt Phone Number</label>              
+              <small class="text-danger" id="error-alt-phone"></small>
             </fieldset>
+            
+            <!-- have to sent user_id (hidden) -->
             <fieldset class="form-group">
-              <input type="number" name="input_place_name" id="input_place_name" class="form-control" >
-              <label>Text</label>
+              <input type="number" name="user_id" id="user_id" class="form-control" value="">
+              <label>User ID</label>
             </fieldset>
+            <!-- To get user current long (hidden) -->
             <fieldset class="form-group">
-              <input type="number" name="u_long" id="u_long" class="form-control" >
-              <label>Text</label>
+              <input type="number" name="u_long" id="u_long" class="form-control" value="">
+              <label>User long</label>
             </fieldset>
+            <!-- To get user current lat (hidden) -->
             <fieldset class="form-group">
-              <input type="number" name="u_lat" id="u_lat" class="form-control" >
-              <label>Text</label>
+              <input type="number" name="u_lat" id="u_lat" class="form-control" value="">
+              <label>User lat</label>
             </fieldset>
+           
 
             <!-- <small class="text-danger">Please provide the number and street.</small> -->
           </div>
-        </form>
+
+        </div>
       </div>
     </div>
-  </div>
-  <!-- Address End -->
+    <!-- Address End -->
 
-  <!-- Footer Block Start -->
-  <div class="footer-btn">
-    <!--<a class="chkout-btn" href="checkout.html"><h4 class="float-left"><i class="mdi mdi-cart-outline"></i> Checkout </h4><span class="float-right"><strong>&#8377; 1200.69</strong> </span></a>-->
-    <button type="submit" class="chkout-btn">
-      next
-    </button>
-  </div>
+    <!-- Footer Block Start -->
+    <div class="footer-btn">
+      <!--<a class="chkout-btn" href="checkout.html"><h4 class="float-left"><i class="mdi mdi-cart-outline"></i> Checkout </h4><span class="float-right"><strong>&#8377; 1200.69</strong> </span></a>-->
+      <button type="submit" class="chkout-btn" id="add_subBtn">
+        next
+      </button>
+    </div>
+  </form>
   <!-- Footer Block End -->
 
   <!-- Bootstrap core JavaScript -->
   <script src="bootstrap.bundle.min.js"></script>
-  <script >  
-    $(document).ready(function (){
+  <script> 
+    //to disable all input field if base_url and specific data is not present
+    $(".select2").prop('disabled', true);
+    $("input").prop('disabled', true);
 
-      // var base_url = window.AppInventor.getWebViewString(); 
-      var base_url = "http://localhost"
-      $.ajax({
-        method:'GET',
-        url: base_url+"/app/api/store/list",
-        dataType:"json",
-        success:function(data){
-          for(var count=0 ; count < data.stores.length; count++){
-            $(".select2").append('<option value="'+data.stores[count].store_id+'">'+data.stores[count].store_name+'</option>');           
-          }
-        },
-      });
-
-      $("select.store").change(function(){  
-        store_long = $(this).find(':selected').data('long');
-        store_lat = $(this).find(':selected').data('lat'); 
-        tripCalculation();
-      });
-
+    //after page ready
+    $(document).ready(function () {
       
-
-      
-
+      //this is for enable GPS 
       $("#_gps_chkBtn").click(function () {
         $("#_gps_chkBtn").hide();
         $(".pick-add").hide();
         window.AppInventor.setWebViewString("gps_chkBtn");
       });
 
-      var appInventor_locationName = window.AppInventor.getWebViewString();
+      /* 
+      |   Start getting URL and Location name Using WebViewString    
+      */
+      var base_url, appInventor_locationName;
 
-      if(appInventor_locationName){
-        document.getElementById('_place_name').innerHTML = appInventor_locationName;
-        $("#_gps_chkBtn").hide();
-        $(".pick-add").hide();  
-      }
-      
+      var appInterval = window.setInterval(function () {
+        var appInventor_InputValue = window.AppInventor.getWebViewString();
+        values = appInventor_InputValue.split('-');
+        base_url = values[0]; //url will be provided from app using WebViewString
+        appInventor_locationName = values[1]; //location name will be provided from app using WebViewString
+        appInventorPlaceName();
+      }, 1000);
 
+      // Get place_name and display on GPS button section
+      function appInventorPlaceName() {
+        if (appInventor_locationName) {
+          document.getElementById('_place_name').innerHTML = window.AppInventor.getWebViewString();
+          document.getElementById('input_place_name').value = window.AppInventor.getWebViewString();
+          $("#_gps_chkBtn").hide();
+          $(".pick-add").hide();
+          clearInterval(appInterval);
+          storeList(); //call another function to get store list
+        }//end of if condition        
+      }// function end
+
+      //get store names after place_name has value
+      function storeList() {
+        if (base_url) {
+          $.ajax({
+            method: 'GET',
+            url: base_url + "/app/api/store/list",
+            dataType: "json",           
+            success: function (data) {    
+              $(".select2").prop('disabled', false);
+              for (var count = 0; count < data.stores.length; count++) {
+                $(".select2").append('<option value="' + data.stores[count].store_id + '">' + data.stores[count].store_name + '</option>');
+              }
+            },
+          });//end of Ajax
+        }//end if condition       
+      }//function end
+
+      $('.select2').change(function(){
+        $("input").prop('disabled', false);
+      })
+      //Form Submit functionality
+      $('#address_formSubmit').on('click', '#add_subBtn', function (event) {
+        event.preventDefault();
+        $("#error-alt-phone").html(" ");
+        $("#error-store").html(" ");
+        var postData = new FormData($("#address_formSubmit")[0]);   
+        $.ajax({
+          method: 'POST',
+          url: base_url+'/app/api/add/order/address',
+          data: postData,
+          dataType: 'json',
+          processData: false,
+          contentType: false,
+          cache: false,
+          headers: {
+            'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+          },
+          success: function (data){
+            if(data.errors){
+              if(data.errors.alt_phone){
+                $("#error-alt-phone").html(data.errors.alt_phone);
+              }
+              if(data.errors.alt_phone){
+                $("#error-store").html(data.errors.store_id);
+              }
+            }
+            if(data.success == 1){
+              window.AppInventor.setWebViewString("address_saved");
+            }          
+
+          },
+        
+        });
+      });
     });
+
 
   </script>
 </body>
