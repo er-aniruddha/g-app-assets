@@ -125,7 +125,7 @@
 
       var appInterval = window.setInterval(function () {
         var appInventor_InputValue = window.AppInventor.getWebViewString();
-        values = appInventor_InputValue.split('-');
+        values = appInventor_InputValue.split('*');
         base_url = values[0]; //url will be provided from app using WebViewString
         appInventor_locationName = values[1]; //location name will be provided from app using WebViewString
         appInventorPlaceName();
@@ -134,8 +134,8 @@
       // Get place_name and display on GPS button section
       function appInventorPlaceName() {
         if (appInventor_locationName) {
-          document.getElementById('_place_name').innerHTML = window.AppInventor.getWebViewString();
-          document.getElementById('input_place_name').value = window.AppInventor.getWebViewString();
+          document.getElementById('_place_name').innerHTML = appInventor_locationName;
+          document.getElementById('input_place_name').value = appInventor_locationName;
           $("#_gps_chkBtn").hide();
           $(".pick-add").hide();
           clearInterval(appInterval);
