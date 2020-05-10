@@ -1,15 +1,15 @@
 
-// this is for label Animation
-// $('.form-control').each(function () {
-//   $(this).on('blur', function () {
-//     if ($(this).val().trim() != "") {
-//       $('.select2').addClass('has-val');
-//     }
-//     else {
-//       $(this).removeClass('has-val');
-//     }
-//   })
-// })
+//this is for label Animation
+$('.form-control').each(function () {
+  $(this).on('blur', function () {
+    if ($(this).val().trim() != "") {
+      $(this).addClass('has-val');
+    }
+    else {
+      $(this).removeClass('has-val');
+    }
+  })
+})
 //to disable all input field if base_url and specific data is not present
 $(".select2").prop('disabled', true);
 $("input").prop('disabled', true);
@@ -38,6 +38,15 @@ $(document).ready(function () {
     appInventorPlaceName();
   }, 1000);
 
+  //checking GPS enabled or not
+  var gpsEnableChecking = window.setInterval(function () {
+    if (!appInventor_locationName) { //location have no place_name
+      $("#_gps_chkBtn").show();
+      $("#_spinner_Btn").hide();
+    }
+  }, 20000);
+
+
   // Get place_name and display on GPS button section
   function appInventorPlaceName() {
     if (appInventor_locationName) {
@@ -64,7 +73,7 @@ $(document).ready(function () {
           for (var count = 0; count < data.stores.length; count++) {
             $(".select2").append('<option value="' + data.stores[count].store_id + '" >' + data.stores[count].store_name + '</option>');
           }
-         
+
         },
       });//end of Ajax
     }//end if condition       
@@ -85,7 +94,7 @@ $(document).ready(function () {
     var postData = new FormData($("#address_formSubmit")[0]);
     $.ajax({
       method: 'POST',
-      url: base_url + '/api/add/order/address',
+      url: base_url + '/api/add/address',
       data: postData,
       dataType: 'json',
       processData: false,
