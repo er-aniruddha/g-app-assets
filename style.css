@@ -67,7 +67,7 @@ h1, h2, h3, h4, h5, h6 {
      color: #424553;
 }
  p {
-     font-size: 13px;
+     font-size: 14px;
      line-height: 22px;
      color:#424553;
 }
@@ -2645,10 +2645,10 @@ body.toggled::after {
 }
 .pick-add {
 	background: #fff;
-	margin: 0 0 30px;
 	padding: 3px;
 	border-radius: 3px;
-	box-shadow: 0 2px 8px 0 #ccc;
+    box-shadow: 0 2px 8px 0 #ccc;
+    margin-bottom: 1rem;
 }
 .pick-add h5 {
 	margin: 0px;
